@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project  xmlns="http://maven.apache.org/POM/4.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.avbravo</groupId>
+    <artifactId>jmoordbmicrorestclient</artifactId>
+    <version>1.0</version>
+    <packaging>war</packaging>
+
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <failOnMissingWebXml>false</failOnMissingWebXml>
+        <jakartaee>9.0.0</jakartaee>
+        <!--<version.payara>5.2022.2</version.payara>-->
+         <version.payara>6.2021.1.Alpha1</version.payara>
+           <microprofile.version>4.0.1</microprofile.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>jakarta.platform</groupId>
+            <artifactId>jakarta.jakartaee-api</artifactId>
+            <version>${jakartaee}</version>
+            <scope>provided</scope>
+        </dependency>
+          <dependency>
+            <groupId>org.eclipse.microprofile</groupId>
+            <artifactId>microprofile</artifactId>
+            <version>${microprofile.version}</version>
+            <type>pom</type>
+            <scope>provided</scope>
+        </dependency>
+        
+        
+        <dependency>
+            <groupId>net.sf.jasperreports</groupId>
+            <artifactId>jasperreports</artifactId>
+            <version>5.5.0</version>
+        </dependency>
+        
+<!--        <dependency>
+            <groupId>com.github.avbravo</groupId>
+            <artifactId>jmoordb</artifactId>
+            <version>2.5.4</version>
+        </dependency>-->
+<!--        <dependency>
+            <groupId>com.avbravo</groupId>
+            <artifactId>jmoordb</artifactId>
+            <version>2.6.</version>
+        </dependency>-->
+        <dependency>
+            <groupId>com.avbravo</groupId>
+            <artifactId>jmoordbmicro</artifactId>
+            <version>0.1</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>jakarta</finalName>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.0</version>
+                <configuration>
+                    <source>11</source>
+                    <target>11</target>
+                    <compilerVersion>11</compilerVersion>
+                    <fork>true</fork>
+                    <!--<executable>C:\Program Files\Amazon Corretto\jdk11.0.8_10\bin\javac</executable>-->
+                </configuration>
+            </plugin>
+            
+            
+             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.2.3</version>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>fish.payara.maven.plugins</groupId>
+                <artifactId>payara-micro-maven-plugin</artifactId>
+                <configuration>
+                    <payaraVersion>${version.payara}</payaraVersion>
+                    <deployWar>false</deployWar>
+                    <commandLineOptions>
+                        <option>
+                            <key>--autoBindHttp</key>
+                        </option>
+                         <option>
+                           <key>--port</key>
+                           <value>9001</value>
+                       </option>
+                        <option>
+                            <key>--deploy</key>
+                            <value>${project.build.directory}/${project.build.finalName}</value>
+                        </option>
+                          <option>
+                            <key>--contextRoot</key>
+                            <value>${project.build.finalName}</value>
+                        </option>
+                    </commandLineOptions>
+                </configuration>
+                <version>1.4.0</version>
+                
+                    
+                 <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>bundle</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+    <repositories>
+        <repository>
+     <id>jitpack.io</id>
+     <url>https://jitpack.io</url>
+    </repository>
+    </repositories>
+    <name>jmoordbmicrorestclient</name>
+    <description>jmoordbmicrorestclient client for jmoordbmicro</description>
+</project>
